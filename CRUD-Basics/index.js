@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 require('dotenv').config()
 const PORT = process.env.PORT || 6000;
 
+// Body parser middleware
+app.use(bodyParser.json());
+
 /******************Person*************************** */
 // Import the person routes
 const personRoutes = require('./routes/personRoutes');
@@ -15,9 +18,6 @@ app.use('/person', personRoutes);
 // Import menu routes
 const menuRoutes = require('./routes/menuRoutes');
 app.use('/menu', menuRoutes);
-
-// Body parser middleware
-app.use(bodyParser.json());
 
 // Error handling middleware
 app.use((err, req, res, next) => {

@@ -1,22 +1,32 @@
 const express= require('express')
 const router= express.Router()
 const Person= require('./../models/person')
-router.post('/', async (req, res)=>{
-    try{
-        const data= req.body;// assuming the request body contains the person data
+router.post('/', async (req, res) => {
+    try {
+        // Check if required fields are present in the request body
+        if (!req.body.name || !req.body.email || !req.body.mobile || !req.body.work) {
+            return res.status(400).json({ error: "Missing required fields" });
+        }
 
-    //create a new person document using the mongoose model
-    const newPerson= new Person(data);// no need of newPerson.name=data.name, etc. 
+        // Create a new person document using the provided data
+        const newPerson = new Person({
+            name: req.body.name,
+            email: req.body.email,
+            mobile: req.body.mobile,
+            work: req.body.work
+        });
 
-    // save the new person to the database
-    const savedPersonData= await newPerson.save()
-    console.log("data saved")
-    res.status(200).json(savedPersonData)
-    } catch(err){
-        console.log(err)
-          res.status(500).json({err:"server error"})
+        // Save the new person to the database
+        const savedPersonData = await newPerson.save();
+        console.log("Data saved successfully");
+        res.status(200).json(savedPersonData);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal server error" });
     }
-})
+});
+
+
 router.get('/', async (req, res)=>{
     try {
         const data= await Person.find({});
