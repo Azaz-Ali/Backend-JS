@@ -8,6 +8,12 @@ const PORT = process.env.PORT || 6000;
 // Body parser middleware
 app.use(bodyParser.json());
 
+/*****************PRINT TIME AND ENDPOINT USING MIDDLEWARE*** */
+const logRequest= (req, res, next)=>{
+  console.log(`[${new Date.now().localString()}] request made to the endpoint:${req.originalUrl}`)
+  next()
+}
+app.use(logRequest)
 /******************Person*************************** */
 // Import the person routes
 const personRoutes = require('./routes/personRoutes');
