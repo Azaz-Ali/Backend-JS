@@ -3,18 +3,17 @@ const router= express.Router()
 const Person= require('./../models/person')
 router.post('/', async (req, res) => {
     try {
+
+        const body= req.body
         // Check if required fields are present in the request body
-        if (!req.body.name || !req.body.email || !req.body.mobile || !req.body.work) {
+        
+        if (!body.name || !body.email || !body.mobile || !body.work) {
             return res.status(400).json({ error: "Missing required fields" });
         }
 
         // Create a new person document using the provided data
-        const newPerson = new Person({
-            name: req.body.name,
-            email: req.body.email,
-            mobile: req.body.mobile,
-            work: req.body.work
-        });
+        const newPerson = new Person(body);
+
 
         // Save the new person to the database
         const savedPersonData = await newPerson.save();
