@@ -36,6 +36,30 @@ router.post('/signUp', async (req, res) => {
     }
 });
 
+/********************LOGIN ROUTE USING JWT**** */
+
+router.post('/login', async (req, res)=>{
+    try{
+      //Extract username and password from req.body
+    const {username, password}= req.body;
+    //Find whether this username and password is present in db or not
+    const user= await Person.findOne({username:username})
+    
+    if(!user || !(await user.comparePassword(password))) //we used bcrypt that's why user.pass wont work
+    return res.status(401).json({err:"Invalid username and Password"})
+
+    // if user present then Generate the token
+    const payload= {
+        id: user.id,
+        username: user.username
+    }
+    const token= generateToken(payload)  
+    res.json({token:token, msg:"Login Successful"})
+    } catch(err){
+        res.status(500).json({msg:"internal Server Error"})
+    }
+    
+})
 
 router.get('/', async (req, res)=>{
     try {
@@ -45,6 +69,22 @@ router.get('/', async (req, res)=>{
     } catch (error) {
         console.log(error)
         res.status(500).json({err:"internal server error"})
+    }
+})
+
+//Profile Route
+router.get('/profile',jwtAuthMiddleware, async (req, res)=>{
+    try {
+        const userData= req.userData; // decoded token: user data is in this token
+const userId= userData.id;
+console.log(userData, userId)
+const findTheUser= await Person.findById(userId)
+
+        res.status(200).json({user:findTheUser})
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:"Internal Server Error"})
     }
 })
 router.get('/:workType', async (req, res)=>{
