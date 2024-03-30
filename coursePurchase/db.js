@@ -2,7 +2,7 @@ const mongoose= require('mongoose')
 //define mongodb connection  url
 //require('dotenv').config()
 
-const MONGODB_URL= "mongodb+srv://azaz123:qwerty12@cluster1.hxvovrt.mongodb.net/"
+const MONGODB_URL= "mongodb+srv://azaz123:qwerty12@cluster1.hxvovrt.mongodb.net/coursSell"
 //setup mongodb connection
 
 mongoose.connect(MONGODB_URL)
