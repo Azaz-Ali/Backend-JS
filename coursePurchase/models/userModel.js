@@ -8,10 +8,11 @@ const UserSchema= new mongoose.Schema({
       password:{
         type:String,
         required:true,
-        purchasedCourses:[{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Course'
-        }]
-      }
+      },
+      purchasedCourses:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+      }]
 })
 const User= mongoose.model('User', UserSchema)
+module.exports= User;

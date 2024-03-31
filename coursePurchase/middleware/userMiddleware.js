@@ -8,7 +8,7 @@ async function userMiddleware(req, res, next) {
     const user= await User.findOne({username:username, password:password})
     if(user) {
         console.log("user found")
-        res.status(200).json(user)
+       // res.status(200).json(user)
         next()
     } else res.status(403).json({msg:"user not found"})
    } catch(error){

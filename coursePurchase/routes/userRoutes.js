@@ -7,7 +7,7 @@ const userMiddleware = require("../middleware/userMiddleware");
 router.post('/signup', async (req, res) => {
     try {
         const { username, password } = req.body;
-        
+       // console.log(username, password)
         // Check if username and password are provided
         if (!username || !password) {
             return res.status(400).json({ error: "Username and password are required." });
@@ -22,16 +22,6 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.get('/courses', (req, res) => {
-    // Implement listing all courses logic
-});
 
-router.post('/courses/:courseId', userMiddleware, (req, res) => {
-    // Implement course purchase logic
-});
-
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
-    // Implement fetching purchased courses logic
-});
 
 module.exports = router;

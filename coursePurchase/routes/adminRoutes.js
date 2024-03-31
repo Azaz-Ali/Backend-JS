@@ -24,9 +24,4 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.get('/courses', adminMiddleware, (req, res) => {
-    // Implement fetching all courses logic
-    
-});
-
 module.exports = router;

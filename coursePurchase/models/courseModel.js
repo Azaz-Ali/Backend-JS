@@ -8,7 +8,7 @@ const courseSchema = new Schema({
     },
     description: String,
     price: Number,
-    instructorName: String
+    instructor: String,
 });
 
 const Course = mongoose.model('Course', courseSchema);
