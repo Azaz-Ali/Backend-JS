@@ -1,0 +1,31 @@
+const Admin= require('../models/adminModel')
+const jwt= require('jsonwebtoken')
+const JWT_SECRET= require('./../index')
+async function adminJWT(req, res, next) {
+    // Middleware for handling auth
+    //implement admin auth logic
+    //Check the headers and validate the admin using admin db
+  //check whether request header has authorization or not
+  const authorization= req.headers.authorization
+  if(!authorization) return res.status(401).json({err:"Token Not Found"})
+   //Extract the jwt token from the request header
+   const token = authorization.split(' ')[1];
+   if (!token) {
+    return res.status(401).json({ error: 'Unauthorized - Token not provided' });
+}
+try {
+    //Verify the token
+    const decodedToken = jwt.verify(token, JWT_SECRET)
+    console.log('Decoded Token:', decodedToken);
+
+    //Attach user information to the request object
+    if(decodedToken.username)
+    next();
+    esle res.status(403).json({msg:"You are not authenticated"})
+} catch (error) {
+    console.log(error);
+    res.status(401).json({error:"invalid token"})
+}
+}
+
+module.exports = adminJWT;
