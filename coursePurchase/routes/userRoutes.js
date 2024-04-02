@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('./../models/userModel');
 const userMiddleware = require("../middleware/userMiddleware");
-
+const jwt= require('jsonwebtoken')
+const {JWT_SECRET} = require('./../config')
 // User Routes
 router.post('/signup', async (req, res) => {
     try {
@@ -21,6 +22,21 @@ router.post('/signup', async (req, res) => {
         res.status(500).json({ error: "Internal Server Error in creation of User" });
     }
 });
+
+// sign in using jwt
+router.post('/signin', async (req, res)=>{
+    try {
+        const {username, password}= req.body;
+        const user= await User.findOne({username, password})
+        if(!user) return res.status(411).json({err:"Invalid username and password"})
+        const token = jwt.sign({username}, JWT_SECRET);
+        console.log(token)
+        res.status(200).json({token:token, msg:"login success"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({msg:"internal Server Error"})
+    }    
+})
 
 
 

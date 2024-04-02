@@ -1,6 +1,6 @@
 const Admin= require('../models/adminModel')
 const jwt= require('jsonwebtoken')
-const JWT_SECRET= require('./../index')
+const {JWT_SECRET}= require('./../config')
 async function adminJWT(req, res, next) {
     // Middleware for handling auth
     //implement admin auth logic
@@ -21,7 +21,7 @@ try {
     //Attach user information to the request object
     if(decodedToken.username)
     next();
-    esle res.status(403).json({msg:"You are not authenticated"})
+    else res.status(403).json({msg:"You are not authenticated"})
 } catch (error) {
     console.log(error);
     res.status(401).json({error:"invalid token"})

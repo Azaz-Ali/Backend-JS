@@ -3,8 +3,9 @@ const router = express.Router();
 const adminMiddleware = require("../middleware/adminMiddleware");
 const Admin = require('./../models/adminModel');
 const Course = require('./../models/courseModel');
-
-
+const jwt= require('jsonwebtoken')
+const {JWT_SECRET}= require('./../config')
+const adminJWT= require('./../jwtAuth/adminJWT')
 // Admin Routes
 router.post('/signup', async (req, res) => {
     try {
@@ -23,5 +24,18 @@ router.post('/signup', async (req, res) => {
         res.status(500).json({ error: "Internal Server Error in creation of admin" });
     }
 });
-
+// sign in using jwt
+router.post('/signin', async (req, res)=>{
+    try {
+        const {username, password}= req.body;
+        const admin= await Admin.findOne({username, password})
+        if(!admin) return res.status(411).json({err:"Invalid username and password"})
+        const token = jwt.sign({username}, JWT_SECRET);
+        console.log(token)
+        res.status(200).json({token:token, msg:"login success"})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({msg:"internal Server Error"})
+    }    
+})
 module.exports = router;

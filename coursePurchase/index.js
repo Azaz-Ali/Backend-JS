@@ -4,7 +4,7 @@ const app = express();
 const adminRouter = require("./routes/adminRoutes")
 const userRouter = require("./routes/userRoutes");
 const courseRouter= require('./routes/courseRoutes')
-const JWT_SECRET= "Azaz_Server123"
+
 const db = require('./db');
 
 const PORT= 3000
@@ -19,4 +19,3 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-module.exports= JWT_SECRET; 
