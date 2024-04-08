@@ -23,12 +23,12 @@ v           }
             // Create the user
             const userCreation = await User.create(body);
             console.log("Successfully created user in the database.");
-            res.status(200).json(userCreation);
+           
             //payload creation
         const payload= {
-            id:userCreation.id,
+            id:userCreation._id,
         }
-        console.log(payload)
+        //console.log(payload)
         //token generation
         const token= generateToken(payload)
         console.log('token is:', token)

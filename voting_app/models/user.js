@@ -31,7 +31,7 @@ const userSchema= new mongoose.Schema({
    role:{
     type:String,
     enum:['voter', 'admin'],
-    default:true
+    
    },
    isVoted:{
     type:Boolean,
@@ -43,7 +43,7 @@ const userSchema= new mongoose.Schema({
 userSchema.pre('save', async function(next){
     
     const user= this
-    console.log(user);
+   // console.log(user);
     //if data is modified then no need to hash the password as already hashed
     if(!user.isModified('password')) return next()
     //if new data is created then we need to hash the password with salt
