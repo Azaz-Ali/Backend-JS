@@ -1,35 +1,33 @@
-const jwt= require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
-//Create a jwt token
-const generateToken= (payload)=>{
-    const token = jwt.sign(payload, process.env.JWT_SECRET);
-    // Return the token as a response
-   return token;
-}
-const jwtAuthMiddleware= (req, res, next)=>{
+const jwtAuthMiddleware = (req, res, next) => {
 
-    //check whether request header has authorization or not
-    const authorization= req.headers.authorization
-    if(!authorization) return res.status(401).json({err:"Token Not Found"})
+    // first check request headers has authorization or not
+    const authorization = req.headers.authorization
+    if(!authorization) return res.status(401).json({ error: 'Token Not Found' });
 
-    //Extract the jwt token from the request header
+    // Extract the jwt token from the request headers
     const token = req.headers.authorization.split(' ')[1];
-    if (!token) {
-        return res.status(401).json({ error: 'Unauthorized - Token not provided' });
-    }
+    if(!token) return res.status(401).json({ error: 'Unauthorized' });
 
-    try {
-        //Verify the token
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
-        console.log('Decoded Token:', decodedToken);
+    try{
+        // Verify the JWT token
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
-        //Attach user information to the request object
-        req.userData= decodedToken;
-        next()
-    } catch (error) {
-        console.log(error);
-        res.status(401).json({error:"invalid token"})
+        // Attach user information to the request object
+        req.user = decodedToken
+        next();
+    }catch(err){
+        console.error(err);
+        res.status(401).json({ error: 'Invalid token' });
     }
 }
 
-module.exports= {jwtAuthMiddleware, generateToken}
+
+// Function to generate JWT token
+const generateToken = (userData) => {
+    // Generate a new JWT token using user data
+    return jwt.sign(userData, process.env.JWT_SECRET, {expiresIn: 30000});
+}
+
+module.exports = {jwtAuthMiddleware, generateToken};
