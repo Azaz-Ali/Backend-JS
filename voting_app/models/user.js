@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-});
+}, {timestamps:true});
 
 // hashing the password
 userSchema.pre('save', async function(next){

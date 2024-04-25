@@ -30,7 +30,7 @@ const candidateSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }
-});
+},{timestamps:true});
 
 const Candidate = mongoose.model('Candidate', candidateSchema);
 module.exports = Candidate;
