@@ -32,7 +32,7 @@ const personSchema= new mongoose.Schema({
         type: String,
         required: true
     }
-})
+}, {timestamps:true})
 
 //bcrypt
 personSchema.pre('save', async function(next){

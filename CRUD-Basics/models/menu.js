@@ -26,7 +26,7 @@ const menuSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }
-});
+}, {timestamps:true});
 
 const Menu = mongoose.model('Menu', menuSchema);
 
