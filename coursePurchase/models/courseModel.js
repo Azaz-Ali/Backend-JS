@@ -9,7 +9,7 @@ const courseSchema = new Schema({
     description: String,
     price: Number,
     instructor: String,
-});
+}, {timestamps:true});
 
 const Course = mongoose.model('Course', courseSchema);
 
